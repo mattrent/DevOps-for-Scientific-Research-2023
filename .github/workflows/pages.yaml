@@ -1,0 +1,54 @@
+name: Documentation
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build docs and upload artifact
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v3.0.0
+      
+      - name: Install Rust
+        run: |
+          rustup update --no-self-update
+      
+      - name: Build docs
+        run: |
+          cargo doc --no-deps --verbose
+
+      - name: Update index.html
+        run: |
+          CRATE=devops_phd_exam
+          echo "<meta http-equiv=\"refresh\" content=\"0; url=${CRATE}\">" > target/doc/index.html
+          touch target/doc/.nojekyll
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          name: docs
+          path: target/doc
+
+  deploy:
+    name: Deploy docs to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+    - name: Deploy to GitHub Pages
+      uses: actions/deploy-pages@v2
+      with:
+        artifact_name: docs
