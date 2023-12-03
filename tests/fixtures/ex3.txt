@@ -1,0 +1,12 @@
+text with
+
+
+several newlines
+
+
+between each line
+
+
+and    several   spaces
+
+between words

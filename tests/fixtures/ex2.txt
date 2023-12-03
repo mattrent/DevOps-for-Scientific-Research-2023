@@ -1,0 +1,7 @@
+some
+text
+split
+between several
+lines
+with a newline
+at the end
