@@ -15,22 +15,16 @@ struct Args {
     file_name: Option<String>,
 
     /// count lines
-    #[arg(
-        short,
-        long,
-        action,
-        help = "Print the newline counts. Unlike in wc, here it's false by default."
-    )]
+    #[arg(short, long, action, help = "Print the newline counts.")]
     lines: bool,
 
     /// count bytes
-    #[arg(
-        short = 'c',
-        long = "bytes",
-        action,
-        help = "Print the byte counts. Unlike in wc, here it's false by default."
-    )]
+    #[arg(short = 'c', long = "bytes", action, help = "Print the byte counts.")]
     bytes: bool,
+
+    /// count bytes
+    #[arg(short = 'w', long = "words", action, help = "Print the word counts.")]
+    words: bool,
 
     /// be verbose
     #[arg(
@@ -58,6 +52,7 @@ fn main() {
 
 fn run(args: Args) -> Result<(), io::Error> {
     let is_stdin = args.file_name.is_none();
+    let all_false = !args.bytes && !args.lines && !args.words;
 
     let mut reader = open(args.file_name.to_owned())?;
 
@@ -75,20 +70,24 @@ fn run(args: Args) -> Result<(), io::Error> {
     let mut out_string = String::new();
 
     if args.verbose == 0 {
-        if args.lines {
+        if args.lines || all_false {
             out_string = format!("{}\t", n_lines);
         }
-        out_string = format!("{}{}\t", out_string, n_words);
-        if args.bytes {
+        if args.words || all_false {
+            out_string = format!("{}{}\t", out_string, n_words);
+        }
+        if args.bytes || all_false {
             out_string = format!("{}{}\t", out_string, n_bytes)
         }
         out_string = out_string.trim().to_owned();
     } else {
-        if args.lines {
+        if args.lines || all_false {
             out_string = format!("Lines: {}\n", n_lines);
         }
-        out_string = format!("{}Words: {}\n", out_string, n_words);
-        if args.bytes {
+        if args.words || all_false {
+            out_string = format!("{}Words: {}\n", out_string, n_words);
+        }
+        if args.bytes || all_false {
             out_string = format!("{}Bytes: {}\n", out_string, n_bytes)
         }
         out_string = out_string.trim().to_owned();
@@ -104,8 +103,8 @@ fn run(args: Args) -> Result<(), io::Error> {
             println!("Reading from {}.", args.file_name.unwrap())
         }
         println!(
-            "Bytes flag is set to {:?}.\nLines flag is set to {:?}.\nVerbose flag is set to {:?} (if >3, counts as 3).",
-            args.bytes, args.lines, args.verbose
+            "Words flag is set to {:?}.\nBytes flag is set to {:?}.\nLines flag is set to {:?}.\nVerbose flag is set to {:?} (if >3, counts as 3).",
+            args.words, args.bytes, args.lines, args.verbose
         );
         println!("############");
     }
