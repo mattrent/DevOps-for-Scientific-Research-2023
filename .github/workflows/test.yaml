@@ -1,0 +1,23 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Build docs and upload artifact
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v3.0.0
+      
+      - name: Install Rust
+        run: |
+          rustup update --no-self-update
+      
+      - name: Run tests
+        run: |
+          cargo test
