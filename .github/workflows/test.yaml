@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    name: Build docs and upload artifact
+    name: Run tests on the project
     runs-on: ubuntu-latest
     steps:
       - name: Checkout main
