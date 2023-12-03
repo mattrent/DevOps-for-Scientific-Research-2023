@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10252385.svg)](https://zenodo.org/records/10252385)
+
 # DevOps-for-Scientific-Research-2023
 
 Repository for the exam of the "DevOps for scientific research" PhD course at the University of Bologna.
