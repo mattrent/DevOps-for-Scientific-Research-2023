@@ -24,7 +24,7 @@ jobs:
 
       - name: Update index.html
         run: |
-          CRATE=devops_phd_exam
+          CRATE=wcrs
           echo "<meta http-equiv=\"refresh\" content=\"0; url=${CRATE}\">" > target/doc/index.html
           touch target/doc/.nojekyll
 
