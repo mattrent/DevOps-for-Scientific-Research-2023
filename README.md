@@ -20,30 +20,30 @@ The output is, in order, lines, words and bytes.
 
 The image can be pulled from Docker Hub:
 ```
-docker pull wcrs:latest
+docker pull mattrent/wcrs:latest
 ```
 
 Reading from stdin:
 ```
-$ echo -en "something\nsomething" | sudo docker run -i wcrs
+$ echo -en "something\nsomething" | sudo docker run -i mattrent/wcrs
 1        2        19
-$ echo -en "something\nsomething" | sudo docker run -i wcrs -l
+$ echo -en "something\nsomething" | sudo docker run -i mattrent/wcrs -l
 1
-$ echo -en "something\nsomething" | sudo docker run -i wcrs -c
+$ echo -en "something\nsomething" | sudo docker run -i mattrent/wcrs -c
 19
-$ echo -en "something\nsomething" | sudo docker run -i wcrs -w
+$ echo -en "something\nsomething" | sudo docker run -i mattrent/wcrs -w
 2
 ```
 
 Reading from file:
 ```
-$ cat LICENSE | sudo docker run -i wcrs
+$ cat LICENSE | sudo docker run -i mattrent/wcrs
 21       169      1071
-$ cat LICENSE | sudo docker run -i wcrs -l
+$ cat LICENSE | sudo docker run -i mattrent/wcrs -l
 21
-$ cat LICENSE | sudo docker run -i wcrs -c
+$ cat LICENSE | sudo docker run -i mattrent/wcrs -c
 1071
-$ cat LICENSE | sudo docker run -i wcrs -w
+$ cat LICENSE | sudo docker run -i mattrent/wcrs -w
 169
 ```
 
